@@ -1,0 +1,3 @@
+﻿username,password,expect_error_contains
+foo,bar,Your username is invalid
+admin,admin,Your username is invalid

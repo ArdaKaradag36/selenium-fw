@@ -1,0 +1,7 @@
+selenium # Selenium WebDriver'ı kullanarak tarayıcı otomasyonu için gerekli kütüphane
+pytest # Testleri yazmak ve çalıştırmak için kullanılan popüler bir test çerçevesi
+pytest-html # Test sonuçlarını HTML formatında raporlamak için kullanılan bir eklenti
+# webdriver-manager # WebDriver'ları otomatik olarak yönetmek için kullanılan bir kütüphane
+faker # Test verilerini oluşturmak için kullanılan bir kütüphane
+pytest-xdist # Testleri paralel olarak çalıştırmak için kullanılan bir eklenti
+allure-pytest # Allure raporları oluşturmak için pytest ile entegrasyon sağlayan bir eklenti

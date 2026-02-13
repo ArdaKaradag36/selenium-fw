@@ -1,0 +1,17 @@
+{
+  "cases": [
+    {
+      "name": "valid_credentials",
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!",
+      "expect": "success"
+    },
+    {
+      "name": "invalid_credentials",
+      "username": "invalid_user",
+      "password": "invalid_pass",
+      "expect": "error",
+      "error_contains": "Your username is invalid"
+    }
+  ]
+}
