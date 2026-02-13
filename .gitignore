@@ -4,5 +4,4 @@ __pycache__/
 reports/allure-results/
 reports/allure-report/
 reports/screenshots/
-report.html
 *.pyc
