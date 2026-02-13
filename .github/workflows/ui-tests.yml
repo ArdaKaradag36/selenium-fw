@@ -7,23 +7,34 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
+        python: ["3.11"]
+
     env:
       HEADLESS: "true"
-      BROWSER: "chrome"
+      BROWSER: ${{ matrix.browser }}
 
     steps:
       - uses: actions/checkout@v4
 
+      # Node (npm) garanti olsun diye ekliyoruz
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python }}
 
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ✅ Allure CLI (report generate için gerekli)
       - name: Install Allure CLI
         run: |
           npm install -g allure-commandline --unsafe-perm=true
@@ -33,24 +44,22 @@ jobs:
         run: |
           pytest -n auto --alluredir=reports/allure-results
 
-      # ✅ HTML raporu üret
       - name: Generate Allure HTML report
         if: always()
         run: |
           allure generate reports/allure-results -o reports/allure-report --clean
 
-      # ✅ results upload (ham data)
+      # ✅ Artifact isimlerini browser'a göre ayır (çakışma olmasın)
       - name: Upload allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
+          name: allure-results-${{ matrix.browser }}
           path: reports/allure-results
 
-      # ✅ report upload (HTML)
       - name: Upload allure HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
+          name: allure-report-${{ matrix.browser }}
           path: reports/allure-report
