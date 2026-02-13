@@ -18,6 +18,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
@@ -27,6 +30,20 @@ jobs:
         run: |
           pytest -n auto --alluredir=reports/allure-results
 
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          npm i -g allure-commandline --silent
+          allure --version
+
+      - name: Generate Allure HTML report
+        if: always()
+        run: |
+          ls -la reports || true
+          ls -la reports/allure-results || true
+          allure generate reports/allure-results -o reports/allure-report --clean
+          ls -la reports/allure-report
+
       - name: Upload allure results
         if: always()
         uses: actions/upload-artifact@v4
@@ -34,10 +51,9 @@ jobs:
           name: allure-results
           path: reports/allure-results
 
-      - uses: actions/setup-python@v5
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          python-version: "3.11"
-
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@v1
-
+          name: allure-report
+          path: reports/allure-report
