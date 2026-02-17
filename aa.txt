@@ -1,0 +1,4 @@
+pip install allure-pytest
+pytest -n auto --alluredir=reports/allure-results
+allure generate reports/allure-results -o reports/allure-report --clean
+allure open reports/allure-report
